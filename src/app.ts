@@ -1,11 +1,12 @@
-import express from "express";
-import { errorHandler } from "./middlewares/errorHandler";
+import express from 'express';
+import { errorHandler } from './middlewares/errorHandler';
+import stationRoutes from './routes/stationRoutes';
 
 const app = express();
 
 app.use(express.json());
 
-// Routes TBD
+app.use('/stations', stationRoutes);
 
 app.use(errorHandler);
 
