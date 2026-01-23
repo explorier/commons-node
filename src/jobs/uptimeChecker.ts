@@ -3,9 +3,8 @@ import { pool } from '../db';
 import { Station } from '../types';
 
 // TODO: Some stations (e.g., WRIR) are behind Cloudflare bot protection
-// and return 403. Options to fix:
-// - Add User-Agent header to requests
-// - Skip certain stations from checks
+// and may return 403. If User-Agent header doesn't help, options:
+// - Add skip_uptime_check column to stations table
 // - Mark stations with known issues in the database
 
 const checkStation = async (station: Pick<Station, 'id' | 'stream_url'>) => {
@@ -17,6 +16,9 @@ const checkStation = async (station: Pick<Station, 'id' | 'stream_url'>) => {
   try {
     const response = await fetch(station.stream_url, {
       signal: AbortSignal.timeout(5000),
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; CommonsRadio/1.0; +https://github.com/explorier/commons)',
+      },
     });
     isUp = response.ok;
   } catch (err) {
