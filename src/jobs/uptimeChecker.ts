@@ -2,10 +2,8 @@ import cron from 'node-cron';
 import { pool } from '../db';
 import { Station } from '../types';
 
-// TODO: Some stations (e.g., WRIR) are behind Cloudflare bot protection
-// and may return 403. If User-Agent header doesn't help, options:
-// - Add skip_uptime_check column to stations table
-// - Mark stations with known issues in the database
+// Some stations (e.g., WRIR) are behind Cloudflare bot protection and return 403.
+// Mark those stations with skip_uptime_check = true in the DB to exclude them.
 
 const checkStation = async (station: Pick<Station, 'id' | 'stream_url'>) => {
   const start = Date.now();
@@ -17,7 +15,8 @@ const checkStation = async (station: Pick<Station, 'id' | 'stream_url'>) => {
     const response = await fetch(station.stream_url, {
       signal: AbortSignal.timeout(5000),
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; CommonsRadio/1.0; +https://github.com/explorier/commons)',
+        'User-Agent':
+          'Mozilla/5.0 (compatible; CommonsRadio/1.0; +https://github.com/explorier/commons)',
       },
     });
     isUp = response.ok;
@@ -40,7 +39,7 @@ const checkAllStations = async () => {
   console.log('Starting uptime check...');
 
   const result = await pool.query<Pick<Station, 'id' | 'stream_url'>>(
-    'SELECT id, stream_url FROM stations',
+    'SELECT id, stream_url FROM stations WHERE skip_uptime_check = false',
   );
 
   await Promise.all(result.rows.map(checkStation));

@@ -11,6 +11,7 @@ CREATE TABLE stations (
   lng DECIMAL(9,6) NOT NULL,
   channels JSONB,
   disable_now_playing BOOLEAN DEFAULT false,
+  skip_uptime_check BOOLEAN DEFAULT false,
   created_at TIMESTAMP DEFAULT NOW()
 );
 

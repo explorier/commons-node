@@ -18,5 +18,6 @@ export interface Station {
   lng: number;
   channels: Channel[] | null;
   disable_now_playing: boolean;
+  skip_uptime_check: boolean;
   created_at: Date;
 }
