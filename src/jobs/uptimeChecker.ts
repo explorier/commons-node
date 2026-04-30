@@ -47,6 +47,6 @@ const checkAllStations = async () => {
   console.log('Uptime check complete.');
 };
 
-cron.schedule('0 0 * * *', checkAllStations);
+cron.schedule('0 * * * *', checkAllStations);
 
 export { checkAllStations };
