@@ -1,23 +1,38 @@
 export interface Channel {
   id: string;
   name: string;
-  stream_url: string;
+  streamUrl: string;
   description?: string;
 }
 
-export interface Station {
-  id: number;
-  call_sign: string;
+type StationCore = {
   name: string;
   frequency: string;
   location: string;
   description: string | null;
-  stream_url: string;
   website: string | null;
-  lat: number;
-  lng: number;
   channels: Channel[] | null;
+};
+
+export interface Station extends StationCore {
+  id: number;
+  call_sign: string;
+  stream_url: string;
   disable_now_playing: boolean;
   skip_uptime_check: boolean;
   created_at: Date;
+  lat: number;
+  lng: number;
+}
+
+export interface StationResponse extends StationCore {
+  id: string;
+  slug: string;
+  callSign: string;
+  streamUrl: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  disableNowPlaying: boolean;
 }
