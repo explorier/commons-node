@@ -16,7 +16,6 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
-    "humps": "^2.0.1",
     "node-cron": "^4.2.1",
     "pg": "^8.17.1"
   },
