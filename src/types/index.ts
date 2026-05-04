@@ -27,7 +27,6 @@ export interface Station extends StationCore {
 
 export interface StationResponse extends StationCore {
   id: string;
-  slug: string;
   callSign: string;
   streamUrl: string;
   coordinates: {

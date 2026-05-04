@@ -9,7 +9,6 @@ const formatStation = (row: Station): StationResponse => {
     .replace(/^-|-$/g, '');
   return {
     id: slug,
-    slug,
     name: row.name,
     callSign: row.call_sign,
     frequency: row.frequency,
