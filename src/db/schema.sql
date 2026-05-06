@@ -26,3 +26,19 @@ CREATE TABLE uptime_logs (
 
 CREATE INDEX idx_uptime_logs_station_id ON uptime_logs(station_id);
 CREATE INDEX idx_uptime_logs_checked_at ON uptime_logs(checked_at);
+
+CREATE TABLE now_playing (
+  station_id INTEGER PRIMARY KEY REFERENCES stations(id),
+  title VARCHAR(1000),
+  updated_at TIMESTAMP DEFAULT current_timestamp NOT NULL
+);
+
+CREATE TABLE now_playing_history (
+  id SERIAL PRIMARY KEY,
+  station_id INTEGER REFERENCES stations(id),
+  title VARCHAR(1000),
+  logged_at TIMESTAMP DEFAULT current_timestamp NOT NULL
+);
+
+CREATE INDEX idx_now_playing_history_station_id ON now_playing_history(station_id);
+CREATE INDEX idx_now_playing_history_logged_at ON now_playing_history(logged_at);
