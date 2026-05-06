@@ -10,8 +10,8 @@
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
     "lint": "eslint src",
     "format": "prettier --write 'src/**/*.ts'",
-    "migrate": "node-pg-migrate -m src/db/migrations up",
-    "migrate:create": "node-pg-migrate -m src/db/migrations create"
+    "migrate": "node-pg-migrate -j ts -m src/db/migrations up",
+    "migrate:create": "node-pg-migrate -j ts -m src/db/migrations create"
   },
   "keywords": [],
   "author": "",
