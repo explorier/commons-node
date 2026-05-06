@@ -17,6 +17,7 @@
   "dependencies": {
     "cors": "^2.8.6",
     "node-cron": "^4.2.1",
+    "node-pg-migrate": "^8.0.4",
     "pg": "^8.17.1"
   },
   "devDependencies": {
