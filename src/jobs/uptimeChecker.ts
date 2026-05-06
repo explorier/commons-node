@@ -35,6 +35,14 @@ const checkStation = async (station: Pick<Station, 'id' | 'stream_url'>) => {
   console.log(`${station.id}: ${isUp ? 'UP' : 'DOWN'} (${responseTime}ms)`);
 };
 
+function chunk<T>(arr: T[], size: number): T[][] {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
 const checkAllStations = async () => {
   console.log('Starting uptime check...');
 
@@ -42,7 +50,9 @@ const checkAllStations = async () => {
     'SELECT id, stream_url FROM stations WHERE skip_uptime_check = false',
   );
 
-  await Promise.all(result.rows.map(checkStation));
+  for (const batch of chunk(result.rows, 15)) {
+    await Promise.all(batch.map(checkStation));
+  }
 
   console.log('Uptime check complete.');
 };
